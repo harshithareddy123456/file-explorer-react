@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import explorer from "./data/data";
+import Component from "./Components/Component";
+import { useState } from "react";
+import useCustomhook from "./hooks/customHook";
 
 function App() {
+  const [exploredata, setExploredata] = useState(explorer);
+  const { insertnode, editnode, deletenode } = useCustomhook();
+  const handleInsertnode = (folderId, item, isFolder) => {
+    const finaltree = insertnode(exploredata, folderId, item, isFolder);
+    setExploredata(finaltree);
+  };
+  const handleeditnode = (folderId, item) => {
+    const finaltree = editnode(exploredata, folderId, item);
+    setExploredata(finaltree);
+  };
+  const handledeletenode = (folderId) => {
+    const finaltree = deletenode(exploredata, folderId);
+    setExploredata(finaltree);
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Component
+        explorer={exploredata}
+        handleInsertdata={handleInsertnode}
+        handleeditdata={handleeditnode}
+        handledeletedata={handledeletenode}
+      />
     </div>
   );
 }
